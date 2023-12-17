@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+    	<setting name="cacheEnabled" value="false"/>
+    	<setting name="jdbcTypeForNull" value="NULL" />
+  	</settings>
+             
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver" />
+				<property name="url" value="jdbc:oracle:thin:@dblab.dongduk.ac.kr:1521:orcl" />
+				<property name="username" value="dbpr0203" />
+				<property name="password" value="1658" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="model/dao/mybatis/mapper/CommentsMapper.xml" />
+		<mapper resource="model/dao/mybatis/mapper/TransactionMapper.xml" />
+		<mapper resource="model/dao/mybatis/mapper/UserInfoMapper.xml" />
+		<mapper resource="model/dao/mybatis/mapper/PostMapper.xml" />
+		<mapper resource="model/dao/mybatis/mapper/ReviewMapper.xml" />
+		<mapper resource="model/dao/mybatis/mapper/WishItemMapper.xml" />
+	</mappers>
+</configuration>

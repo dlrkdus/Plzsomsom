@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model.dao.mybatis.mapper.UserInfoMapper">
+
+	<!-- 로그인 
+	<select id="loginUserInfo" parameterType="java.util.HashMap" resultType="UserInfoDTO">
+		SELECT *
+		FROM UserInfo
+		WHERE userId = #{param1} AND password=#{param2}
+	</select>-->
+	
+	<!-- 회원가입 -->
+	<insert id="joinUserInfo" parameterType="model.UserInfoDTO">
+		INSERT INTO UserInfo(userId, password, name, nickname, phone, email, joinDate)
+		VALUES (#{userId}, #{password}, #{name}, #{nickname}, #{phone}, #{email}, SYSDATE)
+	</insert>
+	
+	<!-- 회원탈퇴/삭제 -->
+	<delete id="deleteUserInfo" parameterType="String">
+		DELETE FROM UserInfo WHERE userId = #{userId}
+	</delete>
+	
+	<!-- 회원리스트 출력 -->
+	<select id="UserInfoList" resultType="model.UserInfoDTO">
+		SELECT * FROM UserInfo
+	</select>
+	
+	<!-- 회원정보가져오기 -->
+	<select id="findUserInfo" parameterType="String" resultType="model.UserInfoDTO">
+		SELECT * FROM UserInfo WHERE userId = #{userId}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateUserInfo" parameterType="model.UserInfoDTO">
+		UPDATE UserInfo SET name = #{name}, nickname = #{nickname}, userId = #{userId}, password = #{password}, email = #{email}, phone = #{phone} WHERE userId = #{userId}	
+	</update>
+	
+
+	
+</mapper>

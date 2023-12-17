@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model.dao.mybatis.mapper.ReviewMapper">
+   <cache />
+   
+   <!-- 리뷰 등록 -->
+   <insert id="insertReview" parameterType="model.ReviewDTO">
+      INSERT INTO Review (ReviewNum, reviewContent, reviewWriteDate, postNum, reviewWriterId, postWriterId)
+      VALUES (#{ReviewNum}, #{reviewContent}, SYSDATE, #{postNum}, #{reviewWriterId}, #{postWriterId})
+   <selectKey resultType="int" keyProperty="ReviewNum" order="BEFORE">
+         SELECT reviewSeq.nextval FROM DUAL
+      </selectKey>
+   
+   </insert>
+   
+   <!-- 리뷰 삭제
+   <delete id="deleteReview" parameterType="int">
+      DELETE FROM Review
+      WHERE ReviewNum = #{ReviewNum}
+   </delete> -->
+   
+   <!-- 리뷰 자세히보기
+   <select id="getReview" parameterType="int" resultType="model.ReviewDTO">
+      SELECT *
+      FROM Review
+      WHERE ReviewNum = #{ReviewNum}      
+   </select> -->
+   
+   <!-- 사용자가 작성한 리뷰 리스트 -->
+   <select id="UserReviewList" parameterType="String" resultType="model.ReviewDTO">
+      SELECT *
+      FROM Review
+      WHERE ReviewWriterId = #{ReviewWriterId}      
+   </select>
+   
+   <!-- 사용자한테 작성된 리뷰 리스트 -->
+   <select id="getReviewList" parameterType="String" resultType="model.ReviewDTO">
+      SELECT *
+      FROM Review
+      WHERE postWriterId = #{postWriterId}      
+   </select>
+</mapper>

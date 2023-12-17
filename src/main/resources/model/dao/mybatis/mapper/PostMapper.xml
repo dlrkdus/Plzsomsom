@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model.dao.mybatis.mapper.PostMapper">
+	
+	<insert id="insertPost" parameterType="model.PostDTO">
+		INSERT INTO POST (postNum, postContent, price, count, time, photo, productCategoryNum, postWriterId, title, postDate)
+		VALUES (#{postNum}, #{postContent}, #{price}, #{count}, 
+				#{time}, #{photo}, #{productCategoryNum}, #{postWriterId}, #{title}, SYSDATE)
+		<selectKey resultType="int" keyProperty="postNum" order="BEFORE">
+			SELECT postSeq.nextval FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<update id="updatePost" parameterType="model.PostDTO">
+		UPDATE POST
+		SET postContent = #{postContent}, price = #{price}, count = #{count}, time = #{time}, photo = #{photo}, 
+		productCategoryNum = #{productCategoryNum}, title = #{title}, postDate = SYSDATE
+		WHERE postNum = #{postNum}
+	</update>
+	
+	<delete id="deletePost" parameterType="int">
+		DELETE FROM POST
+		WHERE postNum = #{postNum}
+	</delete>
+	
+	<select id="getPost" parameterType="int" resultType="model.PostDTO">
+		SELECT *
+		FROM POST
+		WHERE postNum = #{postNum}
+	</select>
+
+	<select id="getPostList" parameterType="String" resultType = "model.PostDTO">
+		SELECT *
+		FROM POST
+		WHERE productCategoryNum = #{productCategoryNum, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getSearchPost" parameterType="String" resultType="model.PostDTO">
+		SELECT *
+		FROM POST
+		WHERE title like '%' || #{keyword} || '%' OR postContent like '%' || #{keyword} || '%'
+	</select>
+</mapper>

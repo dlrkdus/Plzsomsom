@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="model.dao.mybatis.mapper.TransactionMapper">
+    <insert id="insertTransaction" parameterType="model.TransactionDTO">
+        <selectKey resultType="int" keyProperty="transactionNum" order="BEFORE">
+			SELECT transactionSeq.nextval FROM DUAL
+		</selectKey>
+        insert into Transaction (transactionNum, userId, postNum)
+        values 
+          (#{transactionNum}, #{userId}, #{postNum})
+    </insert>
+    
+     <update id="updateCount" parameterType="model.PostDTO">
+		UPDATE POST
+		SET count = count-1
+		WHERE postNum = #{postNum}
+	</update>
+    
+	<select id="selectTransactionList" parameterType="String" resultType="model.TransactionDTO">
+		SELECT p.title, p.postWriterId, p.postNum
+		FROM TRANSACTION t JOIN POST p ON t.postNum = p.postNum
+		WHERE t.userId = #{userId}
+	</select>
+
+</mapper>

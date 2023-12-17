@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model.dao.mybatis.mapper.CommentsMapper">
+<cache />
+	
+	<!-- 댓글 삽입 -->
+	<insert id="insertComments" parameterType="model.CommentsDTO">
+		INSERT INTO COMMENTS (commentsNum, commContent, commWriterId, postNum, commWriteDate)
+		VALUES (#{commentsNum}, #{commContent}, #{commWriterId}, #{postNum}, SYSDATE)
+		<selectKey resultType="int" keyProperty="commentsNum" order="BEFORE">
+			SELECT commentsSeq.nextval FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComments" parameterType="int">
+		DELETE FROM COMMENTS
+		WHERE commentsNum = #{commentsNum} 
+	</delete>
+
+	<!-- 댓글 보여주기(해당 댓글 num에 저장된 댓글 정보) -->
+	<select id="getComments" parameterType="int" resultType="model.CommentsDTO">
+		SELECT *
+		FROM COMMENTS
+		WHERE commentsNum = #{commentsNum}
+	</select>
+
+	<!-- 댓글 보여주기(해당 postnum에 저장된 댓글 리스트 정보) -->
+	<select id="getCommentsList" parameterType="int" resultType="model.CommentsDTO">
+		SELECT *
+		FROM COMMENTS
+		WHERE postNum = #{postNum}
+	</select>
+	
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="model.dao.mybatis.mapper.WishItemMapper">
+    <insert id="insertWishItem" parameterType="model.WishItemDTO">
+        <selectKey resultType="int" keyProperty="wishNum" order="BEFORE">
+			SELECT wishSeq.nextval FROM DUAL
+		</selectKey>
+        insert into wishItem (wishNum, postNum, userId)
+        values 
+          (#{wishNum}, #{postNum}, #{userId})
+    </insert>
+
+    <delete id="deleteWishItem" parameterType="int">
+      delete from WishItem
+      where wishNum = #{wishNum}
+   </delete>
+   
+   <select id="selectWishItem" parameterType="String" resultType="model.WishItemDTO"> 
+      SELECT p.title,
+             w.wishNum, 
+             p.postNum,
+             p.count,
+             p.price
+                    
+        FROM WishItem w JOIN post p ON w.postNum = p.postNum               
+      WHERE w.userId = #{userId}       
+    </select>
+
+    
+   <select id="findWishItem" resultType="String" parameterType="model.WishItemDTO">
+      select decode(count(*), 0, 'false', 'true') from wishItem
+      where postNum = #{postNum}
+      and userId = #{userId} 
+   </select>
+   
+</mapper>
